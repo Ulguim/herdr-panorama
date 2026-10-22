@@ -566,6 +566,7 @@
     "tab_no": null,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    },
@@ -748,6 +749,7 @@
     "tab_no": null,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    },
@@ -898,6 +900,7 @@
     "tab_no": null,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    },
@@ -972,6 +975,7 @@
     "tab_no": null,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    }

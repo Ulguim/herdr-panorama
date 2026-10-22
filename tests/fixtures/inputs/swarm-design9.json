@@ -481,6 +481,7 @@
     "tab_no": 1,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    },
@@ -1079,6 +1080,7 @@
     "tab_no": 2,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    },
@@ -1587,6 +1589,7 @@
     "tab_no": 3,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    },
@@ -1845,6 +1848,7 @@
     "tab_no": 4,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    },
@@ -2007,6 +2011,7 @@
     "tab_no": 5,
     "machine": null,
     "machine_id": null,
+    "workspace": null,
     "bg": [],
     "last_activity": null
    }

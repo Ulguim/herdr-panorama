@@ -70,6 +70,7 @@ fn bare(a: &Map<String, Value>, sid: Option<&Value>) -> Orchestrator {
         tab_no: None,
         machine: None,
         machine_id: None,
+        workspace: None,
         bg: Vec::new(),
         last_activity: None,
     }

@@ -99,6 +99,7 @@
      "tab_no": 1,
      "machine": null,
      "machine_id": null,
+     "workspace": null,
      "bg": [
       {
        "id": "bq1rollout",
@@ -140,6 +141,7 @@
      "tab_no": 2,
      "machine": null,
      "machine_id": null,
+     "workspace": null,
      "bg": [],
      "last_activity": 1791969180.0
     }
@@ -240,6 +242,7 @@
      "tab_no": 1,
      "machine": null,
      "machine_id": null,
+     "workspace": null,
      "bg": [
       {
        "id": "bq1rollout",
@@ -275,6 +278,7 @@
      "tab_no": 2,
      "machine": null,
      "machine_id": null,
+     "workspace": null,
      "bg": [],
      "last_activity": 1791969180.0
     }

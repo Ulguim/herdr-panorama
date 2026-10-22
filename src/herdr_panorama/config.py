@@ -22,6 +22,8 @@ changes. Keys:
 - ``stale_after``: an orchestrator idle this long (nothing in its transcripts, nothing in flight)
   reads "stale". A duration like ``done_window``; default ``"12h"``. ``PANORAMA_STALE_AFTER``
   overrides it.
+- ``group_by``: ``"workspace"`` puts a divider with each herdr workspace's label above its
+  local orchestrators; ``"none"`` (default) only groups other machines' (render.py).
 """
 
 from __future__ import annotations
@@ -117,3 +119,9 @@ def stale_after() -> float:
             return val
     val = parse_duration(load().get("stale_after"))
     return DEFAULT_STALE_AFTER if val is None else val
+
+
+def group_by() -> str:
+    """``group_by``: "workspace" or "none" (the default; anything else reads as it)."""
+    value = load().get("group_by", "none")
+    return "workspace" if value == "workspace" else "none"

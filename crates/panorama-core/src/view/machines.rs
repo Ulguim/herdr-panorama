@@ -6,12 +6,13 @@ use super::screen::Screen;
 use super::text::trunc;
 use crate::model::Orchestrator;
 
-/// The machine label when `o` starts another machine's group (local ones have none). Groups
-/// are keyed by the machine's id: two machines may share a label.
+/// The machine label when `o` starts another machine's group (local ones have none), or with
+/// `group_by = "workspace"` its workspace's label when it starts a local workspace's group.
+/// Groups are keyed by the machine's id: two machines may share a label.
 pub fn group_start<'a>(o: &'a Orchestrator, prev: &mut Option<&'a str>) -> Option<&'a str> {
     // Python's `or`: an empty id or label counts as none
     let set = |s: &'a Option<String>| s.as_deref().filter(|s| !s.is_empty());
-    let key = set(&o.machine_id).or(set(&o.machine));
+    let key = set(&o.machine_id).or(set(&o.machine)).or(set(&o.workspace));
     let starts = key.is_some() && key != *prev;
     *prev = key;
     if starts {

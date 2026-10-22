@@ -1154,12 +1154,15 @@ def machine_divider(cv: Screen, x: int, y: int, w: int, label: str) -> None:
 
 
 def _group_start(o: Orchestrator, prev: list) -> str | None:
-    """The machine label when ``o`` starts a new machine's group (local ones have none).
-    Groups are keyed by the machine's id: two machines may share a label."""
-    key = getattr(o, "machine_id", None) or getattr(o, "machine", None)
+    """The machine label when ``o`` starts a new machine's group (local ones have none), or
+    with ``group_by = "workspace"`` its workspace's label when it starts a local workspace's
+    group. Groups are keyed by the machine's id: two machines may share a label."""
+    mid = getattr(o, "machine_id", None) or getattr(o, "machine", None)
+    ws = getattr(o, "workspace", None)
+    key = mid or (("ws", ws) if ws else None)
     starts = key is not None and key != prev[0]
     prev[0] = key
-    return (o.machine or key) if starts else None
+    return (o.machine or mid or ws) if starts else None
 
 
 def orch_column(swarm: Swarm, view: View, w: int) -> tuple[Column, int]:

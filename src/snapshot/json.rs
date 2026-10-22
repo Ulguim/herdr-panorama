@@ -104,6 +104,7 @@ fn orchestrator(o: &Orchestrator) -> J {
         ("tab_no", opt_int(o.tab_no)),
         ("machine", J::opt_str(o.machine.clone())),
         ("machine_id", J::opt_str(o.machine_id.clone())),
+        ("workspace", J::opt_str(o.workspace.clone())),
         ("bg", bg(&o.bg)),
         ("last_activity", J::opt_float(o.last_activity)),
     ])

@@ -127,6 +127,7 @@ class Orchestrator:
     tab_no: int | None = None  # the tab's position in its workspace, 1-based (herdr's tab number)
     machine: str | None = None  # a saved herdr SSH machine's label; None = this machine
     machine_id: str | None = None  # that machine's stable id (identity, --machine)
+    workspace: str | None = None  # its herdr workspace's label with group_by = "workspace"; None = not grouped
     bg: list[BgTask] = field(default_factory=list)  # the main session's background work in flight
     last_activity: float | None = None  # the newest transcript timestamp of the session or its agents
 

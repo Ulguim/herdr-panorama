@@ -174,3 +174,29 @@ def test_a_continuation_that_is_not_a_session_id_is_ignored(tmp_path, monkeypatc
     assert discovery.find_root(bad, None, str(d["projects"])) is None
     assert discovery.find_root(str(outside)[:-len(".jsonl")], None, str(d["projects"])) is None
     assert os.path.isfile(outside)
+
+
+def test_group_by_workspace_orders_and_labels(tmp_path, monkeypatch):
+    from herdr_panorama import config
+    from herdr_panorama.model import Orchestrator
+    from herdr_panorama.render import _group_start
+    d = build_demo(tmp_path)
+    monkeypatch.setenv("PANORAMA_EVENTS_DIR", str(d["events"]))
+    snap = dict(d["snapshot"])
+    agents = [dict(a) for a in snap["agents"]]
+    for i, a in enumerate(agents):  # alternate workspaces, the second listed first by herdr
+        a["workspace_id"] = "wB" if i % 2 else "wA"
+    snap["agents"] = agents
+    snap["workspaces"] = [{"workspace_id": "wB", "label": "beta"}, {"workspace_id": "wA", "label": "alpha"}]
+    monkeypatch.setattr(config, "group_by", lambda: "workspace")
+    sw = Collector(root=str(d["projects"]), now=lambda: NOW, done_window=6 * 3600).collect(snap, None)
+    labels = [o.workspace for o in sw.orchestrators]
+    assert labels == sorted(labels, key=["beta", "alpha"].index)
+    prev: list = [None]
+    assert [x for x in (_group_start(o, prev) for o in sw.orchestrators) if x] == ["beta", "alpha"]
+    remote = Orchestrator("devbox:w1:p1", None, "x", None, machine="devbox", machine_id="m1", workspace="beta")
+    assert _group_start(remote, prev) == "devbox"
+
+    monkeypatch.setattr(config, "group_by", lambda: "none")
+    sw = Collector(root=str(d["projects"]), now=lambda: NOW, done_window=6 * 3600).collect(snap, None)
+    assert all(o.workspace is None for o in sw.orchestrators)

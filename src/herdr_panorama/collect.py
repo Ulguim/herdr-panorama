@@ -140,7 +140,13 @@ class Collector:
         per_tab: dict = {}
         for a in agents:
             per_tab[a.get("tab_id")] = per_tab.get(a.get("tab_id"), 0) + 1
-        agents.sort(key=lambda a: (order.get(a.get("tab_id"), 999), a.get("pane_id") or ""))
+        ws_label: dict = {}
+        if config.group_by() == "workspace":  # each workspace's orchestrators together, in herdr's order
+            ws_label = {w.get("workspace_id"): w.get("label") or w.get("workspace_id")
+                        for w in snapshot.get("workspaces") or [] if isinstance(w, dict)}
+        ws_order = {wid: i for i, wid in enumerate(ws_label)}
+        agents.sort(key=lambda a: (ws_order.get(a.get("workspace_id"), 999), order.get(a.get("tab_id"), 999),
+                                   a.get("pane_id") or ""))
         tab_no: dict = {}
         for t in tabs.values():  # herdr's tab number: the position in its workspace, 1-based
             ws_tabs = [x for x in tabs.values() if x.get("workspace_id") == t.get("workspace_id")]
@@ -154,6 +160,7 @@ class Collector:
             try:
                 swarm.orchestrators.append(self._orchestrator(a, tabs, per_tab, open_qs or [], now))
                 swarm.orchestrators[-1].tab_no = tab_no.get(a.get("tab_id"))
+                swarm.orchestrators[-1].workspace = ws_label.get(a.get("workspace_id"))
             except Exception as exc:  # noqa: BLE001 - one broken session never hides the others
                 swarm.errors.append(f"{a.get('pane_id')}: {type(exc).__name__}: {exc}"[:300])
         swarm.errors += [f"{sid[:8]}: {s.bad_records} unreadable records" for sid, s in self.sessions.items()

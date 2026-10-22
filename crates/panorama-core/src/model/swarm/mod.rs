@@ -131,6 +131,9 @@ pub struct Orchestrator {
     /// That machine's stable id.
     #[serde(default)]
     pub machine_id: Option<String>,
+    /// Its herdr workspace's label with `group_by = "workspace"`; `None`: not grouped.
+    #[serde(default)]
+    pub workspace: Option<String>,
     /// The main session's background work in flight.
     #[serde(default)]
     pub bg: Vec<BgTask>,
